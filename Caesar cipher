@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <string.h>
+
+// Function to encrypt plain text
+void encrypt(char plaintext[], int key) {
+    int i;
+    char encrypted[strlen(plaintext) + 1];
+
+    for (i = 0; i < strlen(plaintext); i++) {
+        if (plaintext[i] >= 'a' && plaintext[i] <= 'z') {
+            encrypted[i] = 'a' + (plaintext[i] - 'a' + key) % 26;
+        } else if (plaintext[i] >= 'A' && plaintext[i] <= 'Z') {
+            encrypted[i] = 'A' + (plaintext[i] - 'A' + key) % 26;
+        } else {
+            encrypted[i] = plaintext[i];
+        }
+    }
+
+    encrypted[i] = '\0';
+    printf("Encrypted text: %s\n", encrypted);
+}
+
+// Function to decrypt cipher text
+void decrypt(char ciphertext[], int key) {
+    int i;
+    char decrypted[strlen(ciphertext) + 1];
+
+    for (i = 0; i < strlen(ciphertext); i++) {
+        if (ciphertext[i] >= 'a' && ciphertext[i] <= 'z') {
+            decrypted[i] = 'a' + (ciphertext[i] - 'a' - key + 26) % 26;
+        } else if (ciphertext[i] >= 'A' && ciphertext[i] <= 'Z') {
+            decrypted[i] = 'A' + (ciphertext[i] - 'A' - key + 26) % 26;
+        } else {
+            decrypted[i] = ciphertext[i];
+        }
+    }
+
+    decrypted[i] = '\0';
+    printf("Decrypted text: %s\n", decrypted);
+}
+
+int main() {
+    char input[100];
+    int key;
+
+    printf("Enter plain text: ");
+    scanf("%[^\n]%*c", input);
+
+    printf("Enter key (a number between 1 and 25): ");
+    scanf("%d", &key);
+
+    if (key < 1 || key > 25) {
+        printf("Invalid key. Key should be between 1 and 25.\n");
+        return 1;
+    }
+
+    encrypt(input, key);
+
+    char encryptedInput[100];
+    printf("Enter cipher text: ");
+    scanf("%s", encryptedInput);
+
+    decrypt(encryptedInput, key);
+
+    return 0;
+}
